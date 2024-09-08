@@ -137,7 +137,7 @@ function VideoView({ videos = [], loading = true, fetching = false }) {
                   <div className="relative mb-2 w-full md:mb-0 md:w-5/12">
                     <div className="w-full pt-[56%]">
                       <div className="absolute inset-0">
-                        <img src={video.thumbnail} alt={video.title} className="h-full w-full" />
+                        <img src={video.thumbnail} alt={video.title} className="h-full w-full object-contain object-center" />
                       </div>
                       <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
                         {formatVideoDuration(video.duration)}
@@ -150,7 +150,7 @@ function VideoView({ videos = [], loading = true, fetching = false }) {
                         <img
                           src={video.owner?.avatar}
                           alt={video.owner?.username}
-                          className="h-full w-full rounded-full"
+                          className="h-full w-full rounded-full object-cover object-center"
                         />
                       </button>
                     </div>
@@ -164,7 +164,7 @@ function VideoView({ videos = [], loading = true, fetching = false }) {
                           <img
                             src={video.owner?.avatar}
                             alt={video.owner?.username}
-                            className="h-full w-full rounded-full"
+                            className="h-full w-full rounded-full object-cover object-center"
                           />
                         </div>
                         <p className="text-sm text-gray-200">{video.owner?.fullName}</p>

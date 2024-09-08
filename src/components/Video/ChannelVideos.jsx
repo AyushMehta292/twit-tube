@@ -86,7 +86,7 @@ function ChannelVideos({ owner = false }) {
               </span>
             </div>
             <div className="flex items-center">
-              <img src={video.owner?.avatar} className="w-11 rounded-full" />
+              <img src={video.owner?.avatar} className="w-11 rounded-full object-cover object-center" />
               <span className="ml-3">
                 <h6 className="mb-1 font-semibold">{video?.title}</h6>
                 <p className="flex text-sm text-gray-200">

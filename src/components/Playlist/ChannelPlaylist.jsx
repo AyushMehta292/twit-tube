@@ -139,7 +139,7 @@ function ChannelPlaylist({ owner = false }) {
                                 : "https://res.cloudinary.com/df6ztmktu/image/upload/v1717336091/videotube/photos/iqqvkshu1a14wfbr56lh.png"
                             }
                             alt="React Mastery"
-                            className="h-full w-full resize"
+                            className="h-full w-full resize object-cover object-center"
                           />
                           <div className="absolute inset-x-0 bottom-0">
                             <div className="relative border-t bg-white/30 p-4 text-white backdrop-blur-sm before:absolute before:inset-0 before:bg-black/40">

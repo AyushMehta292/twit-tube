@@ -51,7 +51,7 @@ function CommentAtom({ comment, videoId, ownerAvatar = "" }) {
             <img
               src={comment.owner?.avatar}
               alt={comment.owner?.username}
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover object-center"
             />
           </Link>
         </div>
@@ -93,7 +93,7 @@ function CommentAtom({ comment, videoId, ownerAvatar = "" }) {
                   <img
                     src={ownerAvatar}
                     alt={ownerAvatar}
-                    className=" h-[22px] w-[22px] rounded-lg"
+                    className=" h-[22px] w-[22px] rounded-lg object-cover object-center"
                   />
                   <span className={`inline-block w-3 absolute bottom-0 right-0`}>
                     <svg

@@ -68,7 +68,7 @@ function UserProfile({ userId }) {
             <img
               src={profileData?.avatar}
               alt="reactpatterns"
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover object-center"
             />
           </Link>
         </div>

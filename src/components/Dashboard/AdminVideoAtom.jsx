@@ -70,10 +70,10 @@ function AdminVideoAtom({ video }) {
         <div className="flex items-center gap-4">
           {publishedStatus ? (
             <Link to={`/watch/${video._id}`} className="hover:text-gray-300">
-              <img className="h-10 w-10 rounded-sm object-cover object-center" src={video.thumbnail} alt={video.title} />
+              <img className="h-10 w-10 rounded-sm object-contain object-center" src={video.thumbnail} alt={video.title} />
             </Link>
           ) : (
-            <img className="h-10 w-10 rounded-sm object-cover object-center" src={video.thumbnail} alt={video.title} />
+            <img className="h-10 w-10 rounded-sm object-contain object-center" src={video.thumbnail} alt={video.title} />
           )}
           <h3 className="font-semibold">
             {publishedStatus ? (

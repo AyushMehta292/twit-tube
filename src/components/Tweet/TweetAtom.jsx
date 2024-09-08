@@ -53,7 +53,7 @@ function TweetAtom({ tweet, owner, authStatus }) {
             <img
               src={tweet.owner?.avatar}
               alt={tweet.owner?.username}
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover object-center"
             />
           </Link>
         </div>

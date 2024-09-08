@@ -28,7 +28,7 @@ function PlaylistVideoAtom({ video, playlistId, owner = false }) {
           <Link to={`/watch/${video?._id}`}>
             <div className="w-full pt-[56%]">
               <div className="absolute inset-0">
-                <img src={video.thumbnail} alt={video.title} className="h-full w-full" />
+                <img src={video.thumbnail} alt={video.title} className="h-full w-full object-contain object-center" />
               </div>
               <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
                 {formatVideoDuration(video.duration)}
@@ -42,7 +42,7 @@ function PlaylistVideoAtom({ video, playlistId, owner = false }) {
             <img
               src={video.owner?.avatar}
               alt={video.owner?.fullName}
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover object-center"
             />
           </div>
           {/* Video Details */}
@@ -60,7 +60,7 @@ function PlaylistVideoAtom({ video, playlistId, owner = false }) {
                   <img
                     src={video.owner?.avatar}
                     alt={video.owner?.fullName}
-                    className="h-full w-full rounded-full"
+                    className="h-full w-full rounded-full object-cover object-center"
                   />
                 </Link>
               </div>

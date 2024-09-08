@@ -16,7 +16,7 @@ function Settings() {
       {/* CoverImage */}
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img src={userData?.coverImage} alt="cover-photo" />
+          <img src={userData?.coverImage} alt="cover-photo" className="h-full w-full object-cover object-center" />
         </div>
         {/* coverImage Upload */}
         <form
@@ -58,7 +58,7 @@ function Settings() {
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
           {/* avatar */}
           <div className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
-            <img src={userData?.avatar} alt="Channel" className="h-full w-full" />
+            <img src={userData?.avatar} alt="Channel" className="h-full w-full object-cover object-center" />
             <form
               name="avatar-image-form"
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"

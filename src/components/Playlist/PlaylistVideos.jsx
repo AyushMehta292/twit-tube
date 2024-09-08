@@ -172,7 +172,7 @@ function PlaylistVideos() {
                     : "https://res.cloudinary.com/df6ztmktu/image/upload/v1717336091/videotube/photos/iqqvkshu1a14wfbr56lh.png"
                 }
                 alt={playList.name}
-                className="h-full w-full"
+                className="h-full w-full object-contain object-center"
               />
               <div className="absolute inset-x-0 bottom-0">
                 <div className="relative border-t bg-white/30 p-4 text-white backdrop-blur-sm before:absolute before:inset-0 before:bg-black/40">
@@ -234,7 +234,7 @@ function PlaylistVideos() {
                 <img
                   src={playList?.owner?.avatar}
                   alt={playList?.owner?.fullName}
-                  className="h-full w-full rounded-full"
+                  className="h-full w-full rounded-full object-cover object-center"
                 />
               </Link>
             </div>

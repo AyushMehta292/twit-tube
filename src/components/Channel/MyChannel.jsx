@@ -21,7 +21,7 @@ function MyChannel() {
       {/* Cover Image */}
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img src={profile?.coverImage} alt={profile?.username} />
+          <img src={profile?.coverImage} alt={profile?.username} className="h-full w-full object-cover object-center" />
         </div>
       </div>
 
@@ -29,7 +29,7 @@ function MyChannel() {
         {/* Channel Metadata */}
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
           <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
-            <img src={profile?.avatar} alt="Channel" className="h-full w-full" />
+            <img src={profile?.avatar} alt="Channel" className="h-full w-full object-cover object-center" />
           </span>
           <div className="mr-auto inline-block">
             <h1 className="font-bolg text-xl">{profile?.fullName}</h1>

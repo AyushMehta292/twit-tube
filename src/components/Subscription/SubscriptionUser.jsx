@@ -29,7 +29,7 @@ function SubscriptionUser({ profile }) {
               <img
                 src={profile.avatar}
                 alt={profile.username}
-                className="h-full w-full rounded-full"
+                className="h-full w-full rounded-full object-cover object-center"
               />
             </Link>
           </div>

@@ -70,7 +70,7 @@ function MyChannelVideos() {
             <Link to={`/watch/${video?._id}`}>
               <div className="relative mb-2 w-full pt-[56%]">
                 <div className="absolute inset-0">
-                  <img src={video?.thumbnail} alt={video?.title} className="h-full w-full" />
+                  <img src={video?.thumbnail} alt={video?.title} className="h-full w-full object-contain object-center" />
                 </div>
                 <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
                   {formatVideoDuration(video?.duration)}
@@ -78,7 +78,7 @@ function MyChannelVideos() {
               </div>
               <h6 className="mb-1 font-semibold">{video?.title}</h6>
               <p className="flex text-sm text-gray-200">
-                {video?.views} Views · {formatTimestamp(video?.createdAt)}
+                {video?.views} Views · {formatTimestamp(video?.createdAt)}
               </p>
             </Link>
           </li>

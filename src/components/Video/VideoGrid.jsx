@@ -119,7 +119,7 @@ function VideoGrid({ videos = [], loading = true, fetching = false }) {
                     <img
                       src={video.owner?.avatar}
                       alt={video.owner?.fullName}
-                      className="h-full w-full rounded-full"
+                      className="h-full w-full rounded-full object-cover object-center"
                     />
                   </Link>
                 </div>

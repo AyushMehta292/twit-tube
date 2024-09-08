@@ -217,7 +217,7 @@ function Header() {
                   <img
                     src={userData.avatar}
                     alt="avatar"
-                    className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
+                    className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12 object-cover object-center"
                   />
                   <div className="w-full pt-2 sm:hidden">
                     <h6 className="font-semibold">{userData.fullName}</h6>
