@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import thin_loading from "./assets/thin_loading.svg";
-
+import { inject } from '@vercel/analytics';
+ 
 function App() {
+  inject();
   const dispatch = useDispatch();
 
   const [initialLoading, setInitialLoading] = useState(true);
