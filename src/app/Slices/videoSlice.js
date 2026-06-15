@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { axiosInstance } from "../../helpers/axios.helper";
+import { uploadFileToCloudinary } from "../../helpers/cloudinaryUpload.helper";
 import { parseErrorMessage } from "../../helpers/parseErrMsg.helper";
 import { toast } from "react-toastify";
 
@@ -11,37 +13,53 @@ const initialState = {
 };
 
 export const publishVideo = createAsyncThunk("video/publishVideo", async ({ data }, { signal }) => {
-  const formData = new FormData();
-
-  for (const key in data) formData.append(key, data[key]);
-  formData.append("thumbnail", data.thumbnail[0]);
-  formData.append("videoFile", data.videoFile[0]);
-
   const controller = new AbortController();
   signal.addEventListener("abort", () => {
     controller.abort();
   });
 
   try {
-    const response = await axiosInstance.post(`/videos`, formData, {
-      signal: controller.signal,
-      headers: {
-        "Content-Type": "multipart/form-data",
+    const videoUpload = await uploadFileToCloudinary(
+      data.videoFile[0],
+      "video",
+      controller.signal
+    );
+
+    const thumbnailUpload = await uploadFileToCloudinary(
+      data.thumbnail[0],
+      "image",
+      controller.signal
+    );
+
+    const response = await axiosInstance.post(
+      `/videos`,
+      {
+        title: data.title,
+        description: data.description || "",
+        videoFile: videoUpload.secure_url,
+        thumbnail: thumbnailUpload.secure_url,
+        duration: videoUpload.duration,
       },
-    });
+      { signal: controller.signal }
+    );
+
     toast.success(response.data.message);
     return response.data.data;
   } catch (error) {
-    if (axiosInstance.isCancel(error)) {
-      // Handle Cancel errors
+    if (
+      signal.aborted ||
+      controller.signal.aborted ||
+      axios.isCancel(error) ||
+      error.name === "AbortError"
+    ) {
       toast.error("Video Upload canceled");
-    } else {
-      // other errors
+    } else if (error.response?.data) {
       toast.error(parseErrorMessage(error.response.data));
       console.log(error);
-      throw error;
+    } else {
+      toast.error(error.message || "Video upload failed");
+      console.log(error);
     }
-    console.log("Video Upload canceled");
     throw error;
   }
 });
