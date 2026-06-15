@@ -6,6 +6,7 @@ import { Logo, Input, Button } from "../index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { icons } from "../../assets/icons.jsx";
 import { toast } from "react-toastify";
+import { buildLoginPayload } from "../../helpers/loginPayload.helper.js";
 
 function Login() {
   const dispatch = useDispatch();
@@ -23,21 +24,12 @@ function Login() {
   }, []);
 
   const handleLogin = (data) => {
-    const isEmail = !data.username.startsWith("@");
-
-    if (isEmail) {
-      let isValidEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(data.username);
-      if (!isValidEmail) {
-        toast.error("Please enter valid email id");
-        return;
-      }
+    const { payload, error } = buildLoginPayload(data.username, data.password);
+    if (error) {
+      toast.error(error);
+      return;
     }
-
-    const loginData = isEmail
-      ? { email: data.username, password: data.password }
-      : { username: data.username.substr(1), password: data.password };
-
-    dispatch(login(loginData));
+    dispatch(login(payload));
   };
 
   return (
@@ -57,7 +49,7 @@ function Login() {
           <Input
             label="Username or Email address"
             required
-            placeholder="use @ for username"
+            placeholder="username or email"
             {...register("username", { required: true })}
           />
           {errors.username?.type === "required" && (

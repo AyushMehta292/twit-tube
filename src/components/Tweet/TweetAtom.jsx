@@ -37,7 +37,7 @@ function TweetAtom({ tweet, owner, authStatus }) {
       toast.error("Maximum 500 characters are allowed");
       return;
     }
-    dispatch(updateTweet({ tweetId: tweet._id, data: { tweet: content } }));
+    dispatch(updateTweet({ tweetId: tweet._id, data: { content } }));
     setIsEditing(false);
   }
 
@@ -75,7 +75,7 @@ function TweetAtom({ tweet, owner, authStatus }) {
               <input
                 ref={inputRef}
                 type="text"
-                name="tweet"
+                name="content"
                 onChange={(e) => setContent(e.target.value)}
                 disabled={!owner || !isEditing}
                 className=" w-full bg-transparent outline-none border-b-[1px] border-transparent enabled:border-[#ae7aff] focus:border-[#ae7aff]"
@@ -83,6 +83,40 @@ function TweetAtom({ tweet, owner, authStatus }) {
               />
             )}
           </p>
+
+          {tweet.taggedUsers?.length > 0 && (
+            <div className="mb-2 flex flex-wrap gap-2">
+              {tweet.taggedUsers.map((u) => (
+                <Link
+                  key={u._id}
+                  to={`/user/${u.username}`}
+                  className="rounded-full bg-[#ae7aff]/20 px-3 py-1 text-sm text-[#ae7aff] hover:bg-[#ae7aff]/30"
+                >
+                  @{u.username}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {tweet.taggedVideos?.length > 0 && (
+            <div className="mb-3 flex flex-col gap-2">
+              {tweet.taggedVideos.map((v) => (
+                <Link
+                  key={v._id}
+                  to={`/watch/${v._id}`}
+                  className="flex items-center gap-3 rounded-lg bg-slate-800 p-2 hover:bg-slate-700"
+                >
+                  <img src={v.thumbnail} alt="" className="h-14 w-24 rounded object-cover" />
+                  <div className="min-w-0">
+                    <p className="line-clamp-2 text-sm font-medium">{v.title}</p>
+                    <p className="text-xs text-gray-400">@{v.owner?.username}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="flex items-center gap-4">
           <LikesComponent
             tweetId={tweet._id}
             isLiked={tweet.isLiked}
@@ -91,6 +125,15 @@ function TweetAtom({ tweet, owner, authStatus }) {
             totalDisLikes={tweet.totalDisLikes}
             authStatus={authStatus}
           />
+          <Link
+            to={`/tweets/${tweet._id}`}
+            className="text-sm text-gray-400 hover:text-[#ae7aff]"
+          >
+            {tweet.totalComments > 0
+              ? `View thread (${tweet.totalComments})`
+              : "View thread"}
+          </Link>
+          </div>
         </div>
         {/* Tweet controls - Only Owner */}
         {owner && (

@@ -8,6 +8,7 @@ function LikesComponent({
   videoId,
   commentId,
   tweetId,
+  tweetCommentId,
   isLiked = false,
   totalLikes = 0,
   isDisLiked = false,
@@ -64,6 +65,7 @@ function LikesComponent({
     if (videoId) qs = `videoId=${videoId}`;
     else if (commentId) qs = `commentId=${commentId}`;
     else if (tweetId) qs = `tweetId=${tweetId}`;
+    else if (tweetCommentId) qs = `tweetCommentId=${tweetCommentId}`;
     else return toast.error("No id found");
 
     dispatch(toggleLike({ qs, toggleLike: status }));

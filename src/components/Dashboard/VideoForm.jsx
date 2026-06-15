@@ -14,6 +14,8 @@ function VideoForm({ video = false }, ref) {
 
   const [promise, setPromise] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [selectedVideoName, setSelectedVideoName] = useState("");
 
   const {
     register,
@@ -45,6 +47,32 @@ function VideoForm({ video = false }, ref) {
     }
   }, [showPopup]);
 
+  useEffect(() => {
+    return () => {
+      if (videoPreviewUrl) URL.revokeObjectURL(videoPreviewUrl);
+    };
+  }, [videoPreviewUrl]);
+
+  function handleVideoFileChange(e) {
+    const file = e.target.files?.[0];
+    if (videoPreviewUrl) URL.revokeObjectURL(videoPreviewUrl);
+
+    if (!file) {
+      setVideoPreviewUrl(null);
+      setSelectedVideoName("");
+      return;
+    }
+
+    setSelectedVideoName(file.name);
+    setVideoPreviewUrl(URL.createObjectURL(file));
+  }
+
+  function clearVideoPreview() {
+    if (videoPreviewUrl) URL.revokeObjectURL(videoPreviewUrl);
+    setVideoPreviewUrl(null);
+    setSelectedVideoName("");
+  }
+
   async function handleVideo(data) {
     // OPTIMIZEME do not submit if details are not modified
     console.log("data: ", data);
@@ -65,6 +93,7 @@ function VideoForm({ video = false }, ref) {
     });
 
     setPromise(uploadPromise);
+    clearVideoPreview();
     dialog.current?.close();
     uploadingDialog.current?.open();
   }
@@ -95,7 +124,10 @@ function VideoForm({ video = false }, ref) {
                   <button
                     type="button"
                     autoFocus
-                    onClick={() => dialog.current.close()}
+                    onClick={() => {
+                      clearVideoPreview();
+                      dialog.current.close();
+                    }}
                     className="group/btn mr-1 flex w-auto items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
                   >
                     Close
@@ -108,6 +140,23 @@ function VideoForm({ video = false }, ref) {
                   {!video && (
                     <>
                       <div className="w-full border-2 border-dashed px-2 py-5 text-center">
+                        {videoPreviewUrl ? (
+                          <div className="mb-4">
+                            <video
+                              src={videoPreviewUrl}
+                              controls
+                              className="mx-auto max-h-64 w-full rounded-lg bg-black object-contain"
+                            />
+                            <p className="mt-2 text-sm text-gray-300">{selectedVideoName}</p>
+                            <label
+                              htmlFor="upload-video"
+                              className="group/btn mt-3 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-xs font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] md:text-sm md:px-3 md:py-3"
+                            >
+                              Change Video
+                            </label>
+                          </div>
+                        ) : (
+                          <>
                         <span className="mb-2 md:mb-4 inline-block md:w-12 w-12 rounded-full bg-[#E4D3FF] p-3 text-[#AE7AFF]">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -136,23 +185,31 @@ function VideoForm({ video = false }, ref) {
                           htmlFor="upload-video"
                           className="group/btn mt-3 md:mt-3 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-xs md:text-sm md:px-3 md:py-3 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
                         >
-                          <input
-                            type="file"
-                            {...register("videoFile", {
-                              required: true,
-                              validate: (file) => {
-                                const allowedExtensions = ["video/mp4"];
-                                const fileType = file[0].type;
-                                return allowedExtensions.includes(fileType)
-                                  ? true
-                                  : "Invalid file type! Only .mp4 files are accepted";
-                              },
-                            })}
-                            id="upload-video"
-                            className="sr-only"
-                          />
                           Select Files
                         </label>
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          accept="video/mp4,.mp4"
+                          {...register("videoFile", {
+                            required: true,
+                            onChange: handleVideoFileChange,
+                            validate: (files) => {
+                              if (!files?.[0]) return true;
+                              const allowedExtensions = ["video/mp4"];
+                              const fileType = files[0].type;
+                              if (!fileType && files[0].name?.toLowerCase().endsWith(".mp4")) {
+                                return true;
+                              }
+                              return allowedExtensions.includes(fileType)
+                                ? true
+                                : "Invalid file type! Only .mp4 files are accepted";
+                            },
+                          })}
+                          id="upload-video"
+                          className="sr-only"
+                        />
                       </div>
                       {errors.videoFile?.type === "required" && (
                         <div className="text-red-500">*VideoFile is required</div>
@@ -233,7 +290,10 @@ function VideoForm({ video = false }, ref) {
                     {/* Cancel button */}
                     <button
                       type="button"
-                      onClick={() => dialog.current.close()}
+                      onClick={() => {
+                      clearVideoPreview();
+                      dialog.current.close();
+                    }}
                       className="border px-4 py-2 md:px-4 md:py-3 hover:bg-[#212121FF]"
                     >
                       Cancel

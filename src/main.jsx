@@ -40,6 +40,7 @@ import LikedVideos from "./pages/LikedVideos.jsx";
 import Settings from "./pages/Settings.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import FeedTweets from "./pages/FeedTweets.jsx";
+import TweetDetail from "./pages/TweetDetail.jsx";
 import Support from "./pages/Support.jsx";
 import SearchResult from "./pages/SearchResult.jsx";
 
@@ -60,6 +61,8 @@ const router = createBrowserRouter(
               </AuthLayout>
             }
           />
+
+          <Route path="tweets/:tweetId" element={<TweetDetail />} />
 
           {/* Playlists */}
           <Route path="playlist/:playlistId" element={<PlaylistVideos />} />
