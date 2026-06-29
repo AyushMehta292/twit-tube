@@ -15,7 +15,6 @@ export async function uploadFileToCloudinary(file, resourceType, signal) {
   formData.append("timestamp", String(timestamp));
   formData.append("signature", signature);
   formData.append("folder", folder);
-  formData.append("resource_type", resourceType);
 
   const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
 
